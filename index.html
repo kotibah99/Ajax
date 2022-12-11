@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax 1</title>
+</head>
+<body>
+    <button onclick="getRepos()">Get Repos</button>
+    <div  id="show"></div>
+    <script>
+        //make function to do the request
+        function getRepos()
+        {
+            var myRequest = new XMLHttpRequest(); // NEW XHR
+            myRequest.onreadystatechange = function()
+            {
+                console.log(this.status);
+                /*
+            ready state => the statuss of the Request
+            [0] :request not init
+            [1] :server connection established 
+            [2] :request recived
+            [3] :processing request 
+            [4] : request is finshed and response is ready
+            */ 
+          if (this.readyState === 4  && this.status === 200)
+           {
+           // console.log(this.responseText);
+           //Convert ResponseText to js Object
+           var myJsObject = JSON.parse(this.responseText);
+           myText = " " ;
+           for (var i = 0 ; i<myJsObject.length ; ++i)
+           {
+            console.log(myJsObject[i].username);
+            myText += myJsObject[i].username + `</br>`;
+           }
+           myText = document.getElementById('show').innerHTML = myText;
+
+          }
+
+            };
+            myRequest.open(
+                "GET",
+                 "object.json",
+                 true
+            );
+            myRequest.send();
+            
+
+        }
+     
+
+    </script>
+    
+</body>
+</html>
